@@ -1,5 +1,7 @@
 # GH_Robots_URRealtimeFeedback
  Realtime Feedback from Universal Robots in Grasshopper. uses the [Robots Plugin](https://github.com/visose/Robots/).
+ 
+Uses System.Threading.Task.Run() to run the Data-fetching continuously in the Background. **Use at your own risk**. The script "GetURDataOnce.cs" only gets the Data when triggered but is more robust. 
 
  C# code based on [this comment.](https://github.com/visose/Robots/issues/19#issuecomment-520556168)
 
