@@ -55,7 +55,7 @@ public class Script_Instance : GH_ScriptInstance
   /// Output parameters as ref arguments. You don't have to assign output parameters,
   /// they will have a default value.
   /// </summary>
-  private void RunScript(bool getData, string IP, ref object A, ref object B)
+  private void RunScript(bool getData, string IP, ref object RobotData)
   {
     if(DataAsTree == null)
     {
@@ -81,7 +81,7 @@ public class Script_Instance : GH_ScriptInstance
       }
 
     }
-    B = DataAsTree;
+    RobotData = DataAsTree;
   }
 
   // <Custom additional code> 

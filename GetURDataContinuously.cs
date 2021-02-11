@@ -55,7 +55,7 @@ public class Script_Instance : GH_ScriptInstance
   /// Output parameters as ref arguments. You don't have to assign output parameters,
   /// they will have a default value.
   /// </summary>
-  private void RunScript(bool AutoUpdate, string IP, ref object A, ref object B)
+  private void RunScript(bool AutoUpdate, string IP, ref object RobotData)
   {
     datapack = new List<double>();
 
@@ -65,18 +65,16 @@ public class Script_Instance : GH_ScriptInstance
       RobotConnection = new URRealTime(RobotAddress);
       Feedbackdata = RobotConnection.FeedbackData;
     }
-
     if (DataAsTree == null)
     {
       DataAsTree = new DataTree<double>();
     }
-
     if (task == null || task.IsCompleted)
     {
       task = System.Threading.Tasks.Task.Run(() => Animation());
     }
-
-    A = DataAsTree;
+    RobotData = DataAsTree;
+    
     if (AutoUpdate == true)
     {
       Component.ExpireSolution(true);
