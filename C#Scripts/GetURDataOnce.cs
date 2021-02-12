@@ -55,11 +55,16 @@ public class Script_Instance : GH_ScriptInstance
   /// Output parameters as ref arguments. You don't have to assign output parameters,
   /// they will have a default value.
   /// </summary>
-  private void RunScript(bool getData, string IP, ref object RobotData)
+  private void RunScript(bool getData, string IP, ref object DataNames, ref object DataDescription, ref object RobotData)
   {
     if(DataAsTree == null)
     {
       DataAsTree = new DataTree<double>();
+    }
+    if(FeedbackNames == null || FeedbackDesc == null)
+    {
+      FeedbackNames = new List<string>();
+      FeedbackDesc = new List<string>();
     }
     if (getData == true)
     {
@@ -69,23 +74,38 @@ public class Script_Instance : GH_ScriptInstance
       var Feedbackdata = RobotConnection.FeedbackData;
       RobotConnection.UpdateFeedback();
       Feedbackdata = RobotConnection.FeedbackData;
-      for (var j = 0; j < Feedbackdata.Count; j++)
+      for (var i = 0; i < Feedbackdata.Count; i++)
       {
-        datapack = new List<double>();
-        for (var k = 0; k < Feedbackdata[j].Value.Length; k++)
+        if (FeedbackNames.Count > i)
         {
-          datapack.Add(Feedbackdata[j].Value[k]);
+          FeedbackNames[i] = Feedbackdata[i].Meaning;
+          FeedbackDesc[i] = Feedbackdata[i].Notes;
         }
-        GH_Path path = new GH_Path(j);
+        else
+        {
+          FeedbackNames.Add(Feedbackdata[i].Meaning);
+          FeedbackDesc.Add(Feedbackdata[i].Notes);
+        }
+
+        datapack = new List<double>();
+        for (var j = 0; j < Feedbackdata[i].Value.Length; j++)
+        {
+          datapack.Add(Feedbackdata[i].Value[j]);
+        }
+        GH_Path path = new GH_Path(i);
         DataAsTree.AddRange(datapack, path);
       }
 
     }
     RobotData = DataAsTree;
+    DataDescription = FeedbackDesc;
+    DataNames = FeedbackNames;
   }
 
   // <Custom additional code> 
   DataTree<double> DataAsTree;
+  List<string> FeedbackNames;
+  List<string> FeedbackDesc;
 
   /// <summary>
   /// This method will be called once every solution, before any calls to RunScript.

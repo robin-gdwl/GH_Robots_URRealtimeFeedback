@@ -71,7 +71,7 @@ public class Script_Instance : GH_ScriptInstance
     }
     if (task == null || task.IsCompleted)
     {
-      task = System.Threading.Tasks.Task.Run(() => Animation());
+      task = System.Threading.Tasks.Task.Run(() => getRobotData());
     }
     RobotData = DataAsTree;
     
@@ -91,7 +91,7 @@ public class Script_Instance : GH_ScriptInstance
   List<FeedbackType> Feedbackdata;
   GH_Path path;
 
-  void Animation()
+  void getRobotData()
   {
     RobotConnection.UpdateFeedback();
     Feedbackdata = RobotConnection.FeedbackData;
