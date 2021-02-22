@@ -2,6 +2,8 @@
 
 # GH_Robots_URRealtimeFeedback
  Realtime Feedback from Universal Robots in Grasshopper. Uses the [Robots Plugin](https://github.com/visose/Robots/). **Use at your own Risk**. 
+ With this code it is possible to get the current position, accelleration, speeds and more from a Universal Robot into Grasshopper. This data can then be used further inside the Grasshopper environment. 
+
  See [Below for Usage-Instructions](#usage). 
  
  Contains 2 C# scripts: 
@@ -30,9 +32,9 @@ https://youtu.be/c1BiL6fXkgs
 - [Download the project folder](https://github.com/robin-gdwl/GH_Robots_URRealtimeFeedback/archive/main.zip)
 - If you use Windows: [Unblock](https://wiki.mcneel.com/rhino/unblockplugin) the .zip file 
 - open the `UR-Robotfeedback01.ghx` file in Grasshopper 
-- connect to the same network as a Universal Robot or a [URSIM-Software](https://www.universal-robots.com/download/?filters[]=98759&query=) Running on a virtual machine that is connected to the same network. 
-  - See [this Repository](https://github.com/a-vi-shek/URSim-Grasshopper-Link) for more information on installing URsim and using it with Grasshopper
-- Set the IP adress of the Robot or the virtual machine on the network in the Panel named `Robot IP Address`
+- connect to the same network as a Universal Robot or a [URSIM-Software](https://www.universal-robots.com/download/?filters[]=98759&query=) 
+- See [this Repository](https://github.com/a-vi-shek/URSim-Grasshopper-Link) for more information on installing URsim and using it with Grasshopper
+- Set the IP adress of the Robot or the virtual machine in the Panel named `Robot IP Address`
 ___
 Tested with Rhino 6 on Windows. 
 On opening the Grasshopper definition you may be prompted to specify the location of the **Robots.DLL** file. It is located in your Grasshopper [Library Folder](https://aws1.discourse-cdn.com/mcneel/original/3X/3/a/3a92b414f32d6b2f9038826fa0c8547087625e09.png) (where you install GH-plugins)
@@ -40,7 +42,7 @@ On opening the Grasshopper definition you may be prompted to specify the locatio
 There may be an issue with the C# script consuming uneccesary amounts of RAM. I hope to fix this soon. 
 
 # TODO:
-- [ ] Test on mac 
+- [x] Test on mac (onetime script seems to work fine)
 - [ ] Investigate Memory Leak
 - [ ] Annotate GH Definition 
 - [ ] Comment C#-script code
