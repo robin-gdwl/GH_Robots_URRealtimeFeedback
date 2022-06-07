@@ -1,3 +1,7 @@
+##Important: 
+Currently does not work with the newest version of the Robots Plugin. 
+I will update the script in the future. 
+
 ![overview Image UR feedback](URFeedbackOverviewImg.png)
 
 # GH_Robots_URRealtimeFeedback
