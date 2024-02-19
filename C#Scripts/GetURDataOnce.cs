@@ -13,8 +13,6 @@ using Grasshopper.Kernel.Types;
 using Grasshopper.Kernel.Special;
 using Robots;
 
-
-
 /// <summary>
 /// This class will be instantiated on demand by the Script component.
 /// </summary>
@@ -74,7 +72,7 @@ public class Script_Instance : GH_ScriptInstance
       var Feedbackdata = RobotConnection.FeedbackData;
       RobotConnection.UpdateFeedback();
       Feedbackdata = RobotConnection.FeedbackData;
-      for (var i = 0; i < Feedbackdata.Count; i++)
+      for (var i = 0; i < Feedbackdata.Length; i++)
       {
         if (FeedbackNames.Count > i)
         {
@@ -106,17 +104,5 @@ public class Script_Instance : GH_ScriptInstance
   DataTree<double> DataAsTree;
   List<string> FeedbackNames;
   List<string> FeedbackDesc;
-
-  /// <summary>
-  /// This method will be called once every solution, before any calls to RunScript.
-  /// </summary>
-  public override void BeforeRunScript()
-  { }
-  /// <summary>
-  /// This method will be called once every solution, after any calls to RunScript.
-  /// </summary>
-  public override void AfterRunScript()
-  { }
-
   // </Custom additional code> 
 }
