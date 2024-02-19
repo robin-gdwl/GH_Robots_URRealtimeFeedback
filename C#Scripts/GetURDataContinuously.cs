@@ -13,8 +13,6 @@ using Grasshopper.Kernel.Types;
 using Grasshopper.Kernel.Special;
 using Robots;
 
-
-
 /// <summary>
 /// This class will be instantiated on demand by the Script component.
 /// </summary>
@@ -55,10 +53,15 @@ public class Script_Instance : GH_ScriptInstance
   /// Output parameters as ref arguments. You don't have to assign output parameters,
   /// they will have a default value.
   /// </summary>
-  private void RunScript(bool AutoUpdate, string IP, ref object RobotData)
+  private void RunScript(bool AutoUpdate, string IP, ref object DataNames, ref object DataDescription, ref object RobotData)
   {
     datapack = new List<double>();
 
+    if(FeedbackNames == null || FeedbackDesc == null)
+    {
+      FeedbackNames = new List<string>();
+      FeedbackDesc = new List<string>();
+    }
     if (RobotConnection == null)
     {
       RobotAddress = IP;
@@ -74,12 +77,13 @@ public class Script_Instance : GH_ScriptInstance
       task = System.Threading.Tasks.Task.Run(() => getRobotData());
     }
     RobotData = DataAsTree;
-    
+    DataDescription = FeedbackDesc;
+    DataNames = FeedbackNames;
+
     if (AutoUpdate == true)
     {
       Component.ExpireSolution(true);
     }
-
   }
 
   // <Custom additional code> 
@@ -88,7 +92,9 @@ public class Script_Instance : GH_ScriptInstance
   String RobotAddress;
   DataTree<double> DataAsTree;
   List<double> datapack;
-  List<FeedbackType> Feedbackdata;
+  FeedbackType[] Feedbackdata;
+  List<string> FeedbackNames;
+  List<string> FeedbackDesc;
   GH_Path path;
 
   void getRobotData()
@@ -96,8 +102,18 @@ public class Script_Instance : GH_ScriptInstance
     RobotConnection.UpdateFeedback();
     Feedbackdata = RobotConnection.FeedbackData;
 
-    for (var j = 0; j < Feedbackdata.Count; j++)
+    for (var j = 0; j < Feedbackdata.Length; j++)
     {
+      if (FeedbackNames.Count > j)
+      {
+        FeedbackNames[j] = Feedbackdata[j].Meaning;
+        FeedbackDesc[j] = Feedbackdata[j].Notes;
+      }
+      else
+      {
+        FeedbackNames.Add(Feedbackdata[j].Meaning);
+        FeedbackDesc.Add(Feedbackdata[j].Notes);
+      }
       datapack = new List<double>();
       for (var k = 0; k < Feedbackdata[j].Value.Length; k++)
       {
@@ -107,20 +123,9 @@ public class Script_Instance : GH_ScriptInstance
       DataAsTree.RemovePath(j);
       DataAsTree.AddRange(datapack, path);
       DataAsTree.TrimExcess();
+
     }
   }
-
-
-  /// <summary>
-  /// This method will be called once every solution, before any calls to RunScript.
-  /// </summary>
-  public override void BeforeRunScript()
-  { }
-  /// <summary>
-  /// This method will be called once every solution, after any calls to RunScript.
-  /// </summary>
-  public override void AfterRunScript()
-  { }
 
   // </Custom additional code> 
 }
